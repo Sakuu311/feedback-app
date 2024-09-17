@@ -8,7 +8,7 @@ const port = 3000;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-const mongoUrl = 'mongodb://localhost:27017';
+const mongoUrl = 'mongodb://localhost:4000';
 const dbName = 'feedbackDB';
 let db;
 
