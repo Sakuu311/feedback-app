@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware to serve static files and parse request body
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-const mongoUrl = 'mongodb://localhost:27017';
+const mongoUrl = process.env.MONGO_URL || 'mongodb+srv://<Saku31>:<Sakshisinha>@cluster0.fmfzn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const dbName = 'feedbackDB';
 let db;
 
@@ -40,6 +40,5 @@ app.post('/submit-feedback', (req, res) => {
         });
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
