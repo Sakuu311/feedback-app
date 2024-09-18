@@ -21,7 +21,7 @@ MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true 
     .catch(error => console.error(error));
 
 // POST route to handle feedback submission
-app.post('/submit-feedback', (req, res) => {
+app.post('/https://backend-n04a8pgcn-sakuu311s-projects.vercel.app/submit-feedback', (req, res) => {
     const feedbackCollection = db.collection('feedbacks');
     const feedbackData = {
         name: req.body.name,
