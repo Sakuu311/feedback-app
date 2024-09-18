@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 4000;
+
 
 // Middleware to serve static files and parse request body
 app.use(express.static('public'));
@@ -13,15 +14,22 @@ const dbName = 'feedbackDB';
 let db;
 
 // Connect to MongoDB
-MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+MongoClient.connect(mongoUrl)
     .then(client => {
         console.log('Connected to Database');
         db = client.db(dbName);
     })
     .catch(error => console.error(error));
 
+    app.get('/', (req, res)=>{
+        const ans = "hi api";
+        return res.json({
+        data : ans,
+        message: "new new api"
+        })
+    })
 // POST route to handle feedback submission
-app.post('/https://backend-n04a8pgcn-sakuu311s-projects.vercel.app/submit-feedback', (req, res) => {
+app.post('/submit-feedback', (req, res) => {
     const feedbackCollection = db.collection('feedbacks');
     const feedbackData = {
         name: req.body.name,
@@ -37,6 +45,19 @@ app.post('/https://backend-n04a8pgcn-sakuu311s-projects.vercel.app/submit-feedba
         .catch(error => {
             console.error(error);
             res.json({ success: false });
+        });
+});
+// GET route to retrieve all feedbacks
+app.get('/get_feedback', (req, res) => {
+    const feedbackCollection = db.collection('feedbacks');
+
+    feedbackCollection.find().toArray()
+        .then(feedbacks => {
+            res.json(feedbacks);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ success: false, message: 'Error fetching feedback' });
         });
 });
 
