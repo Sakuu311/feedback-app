@@ -8,12 +8,12 @@ const port = 3000;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-const mongoUrl = 'mongodb://localhost:4000';
+const mongoUrl = 'mongodb://localhost:27017';
 const dbName = 'feedbackDB';
 let db;
 
 // Connect to MongoDB
-MongoClient.connect(mongoUrl)
+MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(client => {
         console.log('Connected to Database');
         db = client.db(dbName);
